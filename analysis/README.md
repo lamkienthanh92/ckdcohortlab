@@ -10,8 +10,8 @@ One row per patient, header in the first row. Column names are case-insensitive.
 |---|---|---|
 | `id` | yes | any text |
 | `age` | yes | years |
-| `sex` | yes | F / M (also female / male, nữ / nam) |
-| `diabetes` | yes | 1 / 0 (also yes / no, có / không) |
+| `sex` | yes | F / M (also female / male) |
+| `diabetes` | yes | 1 / 0 (also yes / no) |
 | `egfr` | yes | mL/min/1.73 m²; rows with eGFR ≥60 are excluded |
 | `acr_mg_g` | yes | urine albumin-to-creatinine ratio, mg/g |
 | `dipstick_protein` | yes | Negative / Trace / 1+ / 2+ / 3+, or 0, 15, 30, 100, 300 (mg/dL), or 0.15, 0.3, 1, 3 (g/L) |

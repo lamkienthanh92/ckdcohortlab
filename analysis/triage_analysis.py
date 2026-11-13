@@ -42,7 +42,7 @@ def _grade(v):
     if pd.isna(v):
         return np.nan
     s = str(v).strip().lower()
-    words = {"negative": 0, "neg": 0, "am tinh": 0, "âm tính": 0, "-": 0, "trace": 15, "vet": 15, "+-": 15,
+    words = {"negative": 0, "neg": 0, "-": 0, "trace": 15, "+-": 15,
              "1+": 30, "2+": 100, "3+": 300, "4+": 300}
     if s in words:
         return words[s]
@@ -66,8 +66,8 @@ def load(path):
     d = pd.DataFrame()
     d["id"] = raw[c("id", "patient_id", "study_id")].astype(str)
     d["age"] = pd.to_numeric(raw[c("age")], errors="coerce")
-    d["female"] = _yesno(raw[c("sex", "gender")], ("f", "female", "nu", "nữ", "1"), ("m", "male", "nam", "0"))
-    d["dm"] = _yesno(raw[c("diabetes", "dm")], ("1", "yes", "true", "co", "có"), ("0", "no", "false", "khong", "không"))
+    d["female"] = _yesno(raw[c("sex", "gender")], ("f", "female", "1"), ("m", "male", "0"))
+    d["dm"] = _yesno(raw[c("diabetes", "dm")], ("1", "yes", "true"), ("0", "no", "false"))
     d["egfr"] = pd.to_numeric(raw[c("egfr", "egfr_entered", "egfr_ckdepi2021")], errors="coerce")
     d["acr"] = pd.to_numeric(raw[c("acr_mg_g", "acr", "acr_entered_mg_g", "acr_from_albumin_mg_g")], errors="coerce")
     d["grade"] = raw[c("dipstick_protein", "protein", "pro")].map(_grade)

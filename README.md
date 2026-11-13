@@ -13,7 +13,7 @@ CKD Cohort Lab is a browser tool and a set of Python scripts that accompany the 
 
 ## What the browser tool does
 
-1. **Load data** – an Excel (.xlsx, .xls, .ods) or CSV file, one row per patient. A second file (for example urinalysis results) can be joined by patient ID. Column names in Vietnamese or English are recognised; unit columns ("Đơn vị PRO", "Unit …") are read row by row.
+1. **Load data** – an Excel (.xlsx, .xls, .ods) or CSV file, one row per patient. A second file (for example urinalysis results) can be joined by patient ID. Common column names are matched automatically and the matching can be changed by hand; a unit column named "Unit <column>" (for example "Unit PRO") is read row by row.
 2. **Check the distribution** – every column is summarised before anything is calculated: completeness, distributions, values stored by Excel as dates, values out of range, duplicate IDs, entered ACR against albumin ÷ creatinine, and entered eGFR against CKD-EPI 2021. A cleaned CSV can be downloaded.
 3. **Results** – KFRE (4-variable, non-North American calibration), KDIGO 2024 categories, dipstick accuracy against ACR (overall and by analyser), and the distribution-based triage:
    - laboratory ACR is skipped only when the whole prediction interval of the KFRE lies on one side of a threshold (5-year ≥3% and >5%; 2-year >10% and >40%);

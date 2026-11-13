@@ -206,39 +206,39 @@ function rowsToTable(rows){const isEmpty=r=>!r||r.every(v=>v==null||String(v).tr
   const width=Math.max(...body.map(r=>r.length));const headers=Array.from({length:width},(_,i)=>{const v=body[hi][i];return v==null||String(v).trim()===''?'Column '+(i+1):String(v).trim()});
   const data=body.slice(hi+1).map(r=>Array.from({length:width},(_,i)=>r[i]===undefined?null:r[i]));return {headers,data}}
 
-// ---------- header recognition (Vietnamese and English) ----------
-const nrm=s=>String(s==null?'':s).toLowerCase().replace(/đ/g,'d').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
-const SUFX=/^(nt|nieu|u|urine|mau|ht|serum|nhap|tructiep|mgdl|mgl|mgg|mgmmol|moll|mmoll|eryl|leul|cells|\d)/;
+// ---------- header recognition ----------
+const nrm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+const SUFX=/^(u|urine|serum|plasma|entered|mgdl|mgl|mgg|mgmmol|moll|mmoll|eryl|leul|cells|\d)/;
 const DFIELDS=[
- {k:'id',l:'Patient ID',t:'id',keys:['masonghiencuu','maso','mabn','mabenhnhan','id','studyid','patientid','code','stt']},
- {k:'age',l:'Age',t:'num',u:'years',keys:['tuoi','age','namtuoi'],rng:[18,110]},
- {k:'sex',l:'Sex',t:'sex',keys:['gioitinh','gioi','sex','gender']},
- {k:'dm',l:'Diabetes',t:'bin',keys:['daithaoduong','dtd','diabetes','dm']},
- {k:'htn',l:'Hypertension',t:'bin',keys:['tanghuyetap','tha','hypertension','htn']},
- {k:'ucr',l:'Urine creatinine',t:'num',keys:['creatininnieu','creatininenieu','crenieu','urinecreatinine','ucr','ucreat'],rng:[1,800]},
- {k:'scr',l:'Serum creatinine',t:'num',keys:['creatininht','creatininmau','creatininhuyetthanh','creatininehuyetthanh','cremau','serumcreatinine','creatinineserum','scr','creatinine','creatinin'],rng:[20,2500]},
+ {k:'id',l:'Patient ID',t:'id',keys:['id','studyid','patientid','subjectid','participantid','recordid','code']},
+ {k:'age',l:'Age',t:'num',u:'years',keys:['age','ageyears'],rng:[18,110]},
+ {k:'sex',l:'Sex',t:'sex',keys:['sex','gender']},
+ {k:'dm',l:'Diabetes',t:'bin',keys:['diabetes','dm','diabetesmellitus']},
+ {k:'htn',l:'Hypertension',t:'bin',keys:['hypertension','htn']},
+ {k:'ucr',l:'Urine creatinine',t:'num',keys:['urinecreatinine','ucr','ucreat','creatinineurine'],rng:[1,800]},
+ {k:'scr',l:'Serum creatinine',t:'num',keys:['serumcreatinine','creatinineserum','plasmacreatinine','scr','creatinine'],rng:[20,2500]},
  {k:'egfr',l:'eGFR (entered)',t:'num',u:'mL/min/1.73 m²',keys:['egfr'],rng:[1,200]},
- {k:'ualb',l:'Urine albumin',t:'num',keys:['albuminnieu','albnieu','urinealbumin','ualb','microalbumin','malb'],rng:[0,20000]},
- {k:'acr',l:'Urine ACR',t:'num',keys:['acr','uacr','acrnhap','urineacr','albumincreatinineratio','tylealbumincreatinin'],rng:[0,30000]},
- {k:'pro',l:'Dipstick protein',t:'pro',keys:['pro','protein','proteinnieu','dipstickprotein','urineprotein','proteinque','stripprotein']},
- {k:'sg',l:'Specific gravity',t:'num',keys:['sg','tytrong','specificgravity'],rng:[1.0,1.04]},
- {k:'ph',l:'Urine pH',t:'num',keys:['ph','phnieu','urineph'],rng:[4.5,9]},
- {k:'glu',l:'Dipstick glucose',t:'dip',u:'mg/dL',keys:['glu','glucose','glucosenieu'],allowed:[0,15,50,100,250,500,1000,2000]},
- {k:'ket',l:'Dipstick ketones',t:'dip',u:'mg/dL',keys:['ket','ketone','ceton'],rng:[0,160]},
+ {k:'ualb',l:'Urine albumin',t:'num',keys:['urinealbumin','ualb','microalbumin','malb','albuminurine'],rng:[0,20000]},
+ {k:'acr',l:'Urine ACR',t:'num',keys:['acr','uacr','urineacr','albumincreatinineratio'],rng:[0,30000]},
+ {k:'pro',l:'Dipstick protein',t:'pro',keys:['pro','protein','dipstickprotein','urineprotein','stripprotein','proteinstrip']},
+ {k:'sg',l:'Specific gravity',t:'num',keys:['sg','specificgravity'],rng:[1.0,1.04]},
+ {k:'ph',l:'Urine pH',t:'num',keys:['ph','urineph'],rng:[4.5,9]},
+ {k:'glu',l:'Dipstick glucose',t:'dip',u:'mg/dL',keys:['glu','glucose'],allowed:[0,15,50,100,250,500,1000,2000]},
+ {k:'ket',l:'Dipstick ketones',t:'dip',u:'mg/dL',keys:['ket','ketone','ketones'],rng:[0,160]},
  {k:'bil',l:'Dipstick bilirubin',t:'dip',u:'mg/dL',keys:['bil','bilirubin'],rng:[0,6]},
- {k:'bld',l:'Dipstick blood',t:'dip',keys:['bld','ery','hongcau','blood'],rng:[0,300]},
+ {k:'bld',l:'Dipstick blood',t:'dip',keys:['bld','ery','blood','erythrocytes'],rng:[0,300]},
  {k:'uro',l:'Urobilinogen',t:'dip',u:'mg/dL',keys:['uro','urobilinogen'],rng:[0,12]},
  {k:'nit',l:'Nitrite',t:'cat',keys:['nit','nitrite']},
- {k:'leu',l:'Dipstick leukocytes',t:'dip',keys:['leu','leukocyte','bachcau'],rng:[0,1000]},
- {k:'dev',l:'Analyser',t:'cat',keys:['thietbitptnt','thietbi','device','analyser','analyzer','maydoc','maytptnt']}];
+ {k:'leu',l:'Dipstick leukocytes',t:'dip',keys:['leu','leukocyte','leukocytes','leucocytes'],rng:[0,1000]},
+ {k:'dev',l:'Analyser',t:'cat',keys:['device','analyser','analyzer','instrument']}];
 const DF=Object.fromEntries(DFIELDS.map(f=>[f.k,f]));
 function hdrScore(n,keys){let b=0;for(const k of keys){if(n===k)b=Math.max(b,3);else if(k.length>=4&&n.startsWith(k))b=Math.max(b,2);else if(n.startsWith(k)&&SUFX.test(n.slice(k.length)))b=Math.max(b,1)}return b}
-const isUnitHdr=hd=>/^(donvi|unit)/.test(nrm(hd));
+const isUnitHdr=hd=>/^units?/.test(nrm(hd));
 function autoMap(headers){const used=new Set(),map={};for(const f of DFIELDS){let bi=-1,bs=0;headers.forEach((hd,i)=>{if(used.has(i)||isUnitHdr(hd))return;const s=hdrScore(nrm(hd),f.keys);if(s>bs){bs=s;bi=i}});if(bi>=0){map[f.k]=bi;used.add(bi)}}return map}
 const UCONV={pro:{gl:100,mgdl:1,mgl:0.1},bil:{moll:1/17.1,mgdl:1},uro:{moll:1/16.9,mgdl:1},ket:{mmoll:10,mgdl:1},glu:{mmoll:18.02,mgdl:1},bld:{eryul:1,eryl:1,cellsul:1,ul:1},leu:{leuul:1,leul:1,cellsul:1,ul:1},ucr:{mgdl:1,mmoll:11.312,moll:0.011312},ualb:{mgl:1,mgdl:10},acr:{mgg:1,mgmmol:8.84},scr:{moll:1,mgdl:88.4}};
 const STDU={pro:'mg/dL',bil:'mg/dL',uro:'mg/dL',ket:'mg/dL',glu:'mg/dL',bld:'/µL',leu:'/µL',ucr:'mg/dL',ualb:'mg/L',acr:'mg/g',scr:'µmol/L'};
-function unitColumns(headers,map){const out={};headers.forEach((hd,i)=>{if(!isUnitHdr(hd))return;const r=nrm(hd).replace(/^(donvi|unit)/,'');if(!r)return;for(const k in map){if(k==='id'||out[k]!=null||!UCONV[k])continue;const hn=nrm(headers[map[k]]);if(hn===r||hn.startsWith(r)||(DF[k]&&DF[k].keys.includes(r))){out[k]=i;break}}});return out}
-function joinTables(t1,t2){const m1=autoMap(t1.headers),m2=autoMap(t2.headers);if(m1.id==null||m2.id==null)throw new Error('Both files need a patient ID column, for example “Mã số nghiên cứu” or “ID”.');
+function unitColumns(headers,map){const out={};headers.forEach((hd,i)=>{if(!isUnitHdr(hd))return;const r=nrm(hd).replace(/^units?/,'');if(!r)return;for(const k in map){if(k==='id'||out[k]!=null||!UCONV[k])continue;const hn=nrm(headers[map[k]]);if(hn===r||hn.startsWith(r)||(DF[k]&&DF[k].keys.includes(r))){out[k]=i;break}}});return out}
+function joinTables(t1,t2){const m1=autoMap(t1.headers),m2=autoMap(t2.headers);if(m1.id==null||m2.id==null)throw new Error('Both files need a patient ID column, for example “Study ID” or “ID”.');
   const key=v=>nrm(v),idx2=new Map();t2.data.forEach(r=>{const k=key(r[m2.id]);if(k&&!idx2.has(k))idx2.set(k,r)});
   const o2=t2.headers.map((_,i)=>i).filter(i=>i!==m2.id),o1=t1.headers.map((_,i)=>i).filter(i=>i!==m1.id);
   const headers=[t1.headers[m1.id]].concat(o2.map(i=>t2.headers[i])).concat(o1.map(i=>t1.headers[i])),from=[1].concat(o2.map(()=>2)).concat(o1.map(()=>1));
@@ -255,17 +255,17 @@ function guessUnit(k,hd,vals){const n=nrm(hd),med=median(vals);
   if(k==='acr')return n.includes('mgmmol')?'mg/mmol':'mg/g';return null}
 
 // ---------- cell parsers ----------
-const NEGW=new Set(['amtinh','am','neg','negative','negatif','khong','normal','binhthuong','none','nil']);
+const NEGW=new Set(['neg','negative','normal','none','nil']);
 const isDate=v=>v instanceof Date&&!isNaN(v);
 function numCell(v){if(v==null)return {st:'miss'};if(typeof v==='number')return isFinite(v)?{v}:{st:'bad',raw:String(v)};if(isDate(v))return {st:'date',d:v};
   const s=String(v).trim();if(s===''||s==='-'&&false)return {st:'miss'};const t=s.replace(/^(>=|<=|>|<|≥|≤)\s*/,'').replace(/\s/g,'').replace(',','.');const x=Number(t);
   if(t!==''&&isFinite(x))return {v:x};if(NEGW.has(nrm(s))||s==='-')return {v:0,neg:true};return {st:'bad',raw:s}}
 function decodeDate(k,d){const day=d.getDate(),mo=d.getMonth()+1;if(k==='sg')return Number(day+'.'+String(mo).padStart(2,'0'));return Number(day+'.'+mo)}
-function sexCell(v){const n=nrm(v);if(['nu','f','female','woman','w','2'].includes(n))return 1;if(['nam','m','male','man','1'].includes(n))return 0;return NaN}
-function binCell(v){const n=nrm(v);if(['co','yes','y','1','true','x','c'].includes(n))return 1;if(['khong','no','n','0','false','k'].includes(n))return 0;return NaN}
+function sexCell(v){const n=nrm(v);if(['f','female','woman','w','2'].includes(n))return 1;if(['m','male','man','1'].includes(n))return 0;return NaN}
+function binCell(v){const n=nrm(v);if(['yes','y','1','true','x'].includes(n))return 1;if(['no','n','0','false'].includes(n))return 0;return NaN}
 const PROLV=[0,15,30,100,300,1000],PROLAB={0:'Negative',15:'Trace',30:'1+',100:'2+',300:'3+',1000:'4+'};
 function proCell(v,scale){if(v==null||String(v).trim()==='')return {st:'miss'};const raw=String(v).trim(),n=nrm(raw);
-  if(NEGW.has(n)||raw==='-'||raw==='0')return {v:0};if(['vet','trace','tr'].includes(n)||raw==='±'||raw==='+-')return {v:15};
+  if(NEGW.has(n)||raw==='-'||raw==='0')return {v:0};if(['trace','tr'].includes(n)||raw==='±'||raw==='+-')return {v:15};
   const s=raw.replace(/\s/g,'');const m=s.match(/^([1-4])\+$/);if(m)return {v:[0,30,100,300,1000][+m[1]]};if(/^\++$/.test(s))return {v:[0,30,100,300,1000][Math.min(4,s.length)]};
   const c=numCell(v);if(!Number.isFinite(c.v))return {st:'bad',raw};let x=c.v*scale;if(x<=0)return {v:0};let b=15;for(const l of PROLV.slice(1))if(Math.abs(Math.log(x/l))<Math.abs(Math.log(x/b)))b=l;return {v:b}}
 
@@ -484,9 +484,9 @@ function exampleTable(){const r=mulberry(4242),g=()=>{let u=0,v=0;while(u===0)u=
   const headers=['Study ID','Age','Sex','Diabetes','Hypertension','Serum creatinine (µmol/L)','Urine albumin (mg/L)','Urine creatinine (mg/dL)','Urine ACR (mg/g)','Dipstick protein','Specific gravity','pH','Glucose (mg/dL)'],data=[];
   for(let i=1;i<=140;i++){const age=Math.round(Math.min(92,Math.max(38,68+g()*11))),fem=r()<0.62,dm=r()<0.5,eg=Math.max(6,Math.min(59,20+r()*40+g()*4)),scr=+(88.4*Math.pow(eg/(142*Math.pow(0.9938,age)*(fem?1.012:1)),-1/1.2)*(fem?0.7:0.9)).toFixed(1);
     const lacr=Math.log(120)+g()*1.6-(eg-35)*0.02+(dm?0.4:0),acr=Math.exp(lacr),ucr=+(Math.exp(Math.log(75)+g()*0.5)).toFixed(1),alb=+(acr*ucr/100).toFixed(2);
-    const conc=ucr/75,pc=acr*0.6*conc*Math.exp(g()*0.35),pro=pc<14?'Âm tính':pc<28?'Vết':pc<90?'1+':pc<280?'2+':'3+';const sgv=Math.min(1.03,Math.max(1.005,1.005+0.008*conc+g()*0.003));
+    const conc=ucr/75,pc=acr*0.6*conc*Math.exp(g()*0.35),pro=pc<14?'Negative':pc<28?'Trace':pc<90?'1+':pc<280?'2+':'3+';const sgv=Math.min(1.03,Math.max(1.005,1.005+0.008*conc+g()*0.003));
     const sg=sgv<1.0075?1.005:sgv<1.0125?1.01:sgv<1.0175?1.015:sgv<1.0225?1.02:sgv<1.0275?1.025:1.03;
-    data.push(['EX'+String(i).padStart(3,'0'),age,fem?'Nữ':'Nam',dm?'Có':'Không',r()<0.85?'Có':'Không',scr,alb,ucr,+(alb/ucr*100).toFixed(2),pro,i%23===0?new Date(2026,1,1):sg,[5,5.5,6,6.5,7][Math.floor(r()*5)],dm&&r()<0.3?(r()<0.5?252.26:500):'Âm tính'])}
+    data.push(['EX'+String(i).padStart(3,'0'),age,fem?'F':'M',dm?'Yes':'No',r()<0.85?'Yes':'No',scr,alb,ucr,+(alb/ucr*100).toFixed(2),pro,i%23===0?new Date(2026,1,1):sg,[5,5.5,6,6.5,7][Math.floor(r()*5)],dm&&r()<0.3?(r()<0.5?252.26:500):'Negative'])}
   data[17][8]=+(data[17][8]*1.4).toFixed(2);data[44][1]=null;return {headers,data}}
 
 // ---------- saving files ----------
@@ -534,14 +534,14 @@ function Flow({ds,setDs}){
     return h('div',{className:'grid g12'},h('div',{className:'c12'},steps),
       h('div',{className:'c12 drop'+(over_?' over':''),onDragOver:e=>{e.preventDefault();setOver(true)},onDragLeave:()=>setOver(false),onDrop:e=>{e.preventDefault();setOver(false);onFile(e.dataTransfer.files[0])}},
         h('div',{className:'art'},h('div',{className:'plate'},h('img',{src:URINE_SRC,alt:'',style:{width:92}})),h('div',{className:'plate'},h('img',{src:BLOOD_SRC,alt:'',style:{height:84,width:'auto'}}))),
-        h('div',null,h('h3',null,'Drop an Excel or CSV file here'),h('p',{className:'cap',style:{margin:0}},'One row per patient, with a header row. Columns are recognised in Vietnamese or English, and you can change the matching in the next step.'),
+        h('div',null,h('h3',null,'Drop an Excel or CSV file here'),h('p',{className:'cap',style:{margin:0}},'One row per patient, with a header row. Column names are matched automatically, and you can change the matching in the next step.'),
           h('div',{className:'btnrow'},h('button',{className:'btn primary',type:'button',disabled:busy,onClick:()=>inp.current&&inp.current.click()},busy?'Reading…':'Choose file'),h('button',{className:'btn ghost',type:'button',disabled:busy,onClick:()=>start(exampleTable(),'Example data (synthetic)','example',null,null)},'Try example data')),
           h('input',{ref:inp,type:'file',accept:'.xlsx,.xlsm,.xls,.ods,.csv,.txt',style:{display:'none'},onChange:e=>{onFile(e.target.files[0]);e.target.value=''}}),
           err?h('div',{className:'err',role:'alert'},err):null,
           h('div',{className:'note'},h('b',null,'Private by design. '),'The file is read in this browser only. Nothing is uploaded or stored, and closing the page clears it. Remove names and other identifiers before loading.'))),
       h(Card,{cls:'c12',title:'Columns the tool recognises',cap:'Only age, sex, creatinine (or eGFR) and urine ACR (or albumin and creatinine) are required'},
         h('div',{className:'tblwrap'},h('table',{className:'tbl'},h('thead',null,h('tr',null,h('th',null,'Field'),h('th',null,'Example headers'),h('th',null,'Used for'))),
-          h('tbody',null,[['Age, sex','Tuổi, Giới · Age, Sex','KFRE, eGFR'],['Serum creatinine','Creatinin HT (µmol/L) · Serum creatinine (mg/dL)','eGFR (CKD-EPI 2021)'],['eGFR','eGFR','Used if creatinine is missing'],['Urine ACR','ACR (mg/g or mg/mmol)','KFRE, KDIGO grade'],['Urine albumin, urine creatinine','Albumin niệu (mg/L), Creatinin niệu (mg/dL)','ACR when not entered'],['Diabetes, hypertension','Đái tháo đường, Tăng huyết áp (Có/Không)','Description, prediction models'],['Dipstick protein','PRO_NT (Âm tính, Vết, 1+…, or 15/30/100/300)','Dipstick accuracy and triage'],['Specific gravity, pH and other strip fields','S.G_NT, pH_NT, GLU, LEU…','Distribution checks; SG enters the triage model']].map(([a,b,c])=>h('tr',{key:a},h('td',null,h('b',null,a)),h('td',null,b),h('td',null,c))))))));}
+          h('tbody',null,[['Age, sex','Age · Sex (F/M)','KFRE, eGFR'],['Serum creatinine','Serum creatinine (µmol/L or mg/dL)','eGFR (CKD-EPI 2021)'],['eGFR','eGFR','Used if creatinine is missing'],['Urine ACR','ACR (mg/g or mg/mmol)','KFRE, KDIGO grade'],['Urine albumin, urine creatinine','Urine albumin (mg/L), Urine creatinine (mg/dL)','ACR when not entered'],['Diabetes, hypertension','Diabetes, Hypertension (Yes/No)','Description, prediction models'],['Dipstick protein','Protein (Negative, Trace, 1+…, or 15/30/100/300)','Dipstick accuracy and triage'],['Specific gravity, pH and other strip fields','SG, pH, GLU, LEU…','Distribution checks; SG enters the triage model'],['Analyser, units','Analyser · Unit PRO (one unit per row)','Analyser term; unit conversion row by row']].map(([a,b,c])=>h('tr',{key:a},h('td',null,h('b',null,a)),h('td',null,b),h('td',null,c))))))));}
   // ---------- check stage ----------
   const C=P.cols,egSrc=ds.opt.egfr==='auto'?(C.egfr?'entered':'calc'):(ds.opt.egfr==='entered'&&!C.egfr?'calc':ds.opt.egfr),ready=C.age&&C.sex&&(C.scr||C.egfr)&&(C.acr||(C.ualb&&C.ucr));const warnN=P.issues.filter(x=>x.kind==='warn').length;
   const head=h('div',{className:'c12 dsbar'},h('div',null,h('b',null,ds.name),h('span',null,`${P.n} rows · ${ds.tab.headers.length} columns · ${Object.keys(ds.map).length} fields matched`+(ds.merge?` · joined by ID: ${ds.merge.matched} matched${ds.merge.only1?`, ${ds.merge.only1} only in file 1`:''}${ds.merge.only2?`, ${ds.merge.only2} only in file 2`:''}`:''))),
