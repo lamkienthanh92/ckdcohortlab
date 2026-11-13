@@ -40,3 +40,9 @@ Without GitHub: drag this folder onto https://app.netlify.com/drop.
 ## 4. After the DOI exists
 - Manuscript reference for the code and tool: update the DOI, and make its author list match the creators chosen here.
 - Code availability statement: "The browser tool is available at https://ckdcohortlab.netlify.app and the code at https://github.com/YOUR-USER/ckd-cohort-lab, archived at https://doi.org/10.5281/zenodo.XXXXXXX."
+
+## 5. Releasing version 1.3.0 (five languages)
+1. Replace the repository files with this package (keep `.git` if you work locally) and commit: `git add . && git commit -m "CKD Cohort Lab v1.3.0: five interface languages" && git push`.
+2. Netlify redeploys automatically from GitHub. Language links: `https://ckdco.netlify.app/?lang=en` (also `vi`, `ja`, `zh`, `fr`).
+3. Zenodo: if the GitHub integration is on, create a GitHub release with tag `v1.3.0`; Zenodo adds it as a new version of the same record and mints a new version DOI. If you upload manually, open the published record and choose **New version**, upload the new zip, set Version to 1.3.0 and publish.
+4. Cite the concept DOI (shown on the Zenodo record under "Versions" as the DOI that represents all versions) wherever a citation should always point to the latest version.

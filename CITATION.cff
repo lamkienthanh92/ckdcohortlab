@@ -1,7 +1,7 @@
-cff-version: 1.2.0
+cff-version: 1.3.0
 message: "If you use this software, please cite it as below."
 title: "CKD Cohort Lab: browser tool and analysis code for distribution-based albuminuria triage"
-version: 1.2.0
+version: 1.3.0
 date-released: 2026-11-13
 license: MIT
 type: software
@@ -33,9 +33,9 @@ authors:
   - family-names: "Le"
     given-names: "Chuong Van"
     affiliation: "Faculty of Medical Technology, Van Lang University, Ho Chi Minh City, Vietnam"
-doi: 10.5281/zenodo.XXXXXXX
-repository-code: "https://github.com/YOUR-USER/ckd-cohort-lab"
-url: "https://ckdcohortlab.netlify.app"
+doi: 10.5281/zenodo.24189503
+repository-code: "https://github.com/lamkienthanh92/ckdcohortlab"
+url: "https://ckdco.netlify.app"
 keywords:
   - "chronic kidney disease"
   - "albuminuria"
