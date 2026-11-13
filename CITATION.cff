@@ -1,0 +1,50 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "CKD Cohort Lab: browser tool and analysis code for distribution-based albuminuria triage"
+version: 1.2.0
+date-released: 2026-11-13
+license: MIT
+type: software
+authors:
+  - family-names: "Nguyen"
+    given-names: "Anh Thuy Tram"
+    affiliation: "Department of Nephrology, Lanh Binh Thang General Hospital, Ho Chi Minh City, Vietnam"
+  - family-names: "Pham"
+    given-names: "Tuan Anh"
+    affiliation: "Department of Nephrology, Lanh Binh Thang General Hospital, Ho Chi Minh City, Vietnam"
+  - family-names: "Phan"
+    given-names: "Hoai Diem"
+    affiliation: "Department of Nephrology, Lanh Binh Thang General Hospital, Ho Chi Minh City, Vietnam"
+  - family-names: "Phan"
+    given-names: "Thinh Chi"
+    affiliation: "Department of Nephrology, Lanh Binh Thang General Hospital, Ho Chi Minh City, Vietnam"
+  - family-names: "Lam"
+    given-names: "Thu Ha"
+    affiliation: "Department of Nephrology, Lanh Binh Thang General Hospital, Ho Chi Minh City, Vietnam"
+  - family-names: "Huynh"
+    given-names: "Nam Hoai"
+    affiliation: "Department of Nephrology, Lanh Binh Thang General Hospital, Ho Chi Minh City, Vietnam"
+  - family-names: "Tran"
+    given-names: "Hien Nguyen Thu"
+    affiliation: "Department of Nephrology, Lanh Binh Thang General Hospital, Ho Chi Minh City, Vietnam"
+  - family-names: "Lam"
+    given-names: "Thanh Kien"
+    affiliation: "Faculty of Medical Technology, Van Lang University, Ho Chi Minh City, Vietnam"
+  - family-names: "Le"
+    given-names: "Chuong Van"
+    affiliation: "Faculty of Medical Technology, Van Lang University, Ho Chi Minh City, Vietnam"
+doi: 10.5281/zenodo.XXXXXXX
+repository-code: "https://github.com/YOUR-USER/ckd-cohort-lab"
+url: "https://ckdcohortlab.netlify.app"
+keywords:
+  - "chronic kidney disease"
+  - "albuminuria"
+  - "kidney failure risk equation"
+  - "urinalysis"
+  - "prediction interval"
+  - "KDIGO 2024"
+  - "Vietnam"
+abstract: >-
+  Browser tool and Python code that check a chronic kidney disease dataset, calculate the kidney failure
+  risk equation and KDIGO 2024 categories, and decide which patients need a laboratory urine
+  albumin-to-creatinine ratio by using the predictive distribution from a routine dipstick.
